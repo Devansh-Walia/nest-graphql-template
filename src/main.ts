@@ -9,13 +9,7 @@ import helmet from 'helmet';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors({
-    origin: [
-      applicationConfig.app.feDomain(),
-      'http://localhost:4000',
-      'http://localhost:5000',
-    ],
-  });
+  app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
 
   app.use(morgan('combined'));
@@ -23,8 +17,9 @@ async function bootstrap() {
     helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }),
   );
 
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   app.use(cookieParser('my-secret'));
+
+  app.setGlobalPrefix('api');
 
   const res = await app.listen(applicationConfig.app.port, '0.0.0.0');
   const serverAddress = res.address();

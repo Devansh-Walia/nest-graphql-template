@@ -1,8 +1,6 @@
 import 'dotenv/config';
 
 export const applicationConfig = {
-  uiBaseUrl: process.env.UI_BASE_URL,
-
   // App
   app: {
     env: process.env.APP_ENV,
